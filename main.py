@@ -1,4 +1,7 @@
 """
+Scenery Image classification using BoW (bag of words)
+sift (feature extraction) + kMeans (building words) + SVM(classifying)
+
 you can download the zipped 15-Scene dataset from this website:
 https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/12855452/15SceneImageDataset.rar
 
@@ -80,7 +83,9 @@ if __name__ == '__main__':
             data = np.vstack(batch)
             kmeans.partial_fit(data)
 
-        # step 3. 将both训练集和测试集中的 descriptors归到最近的cluster，看作一个visual word, 根据每个图像各个word的占比计算的统计直方图特征
+        # step 3. Get the visual 'words'
+        # Assign the descriptors from both the training and test sets to the nearest cluster,
+        # then compute the statistical histogram features based on the proportion of each word in each image.
         train_feats = [feature_histogram(desc, kmeans) for desc in tqdm(train_descriptors, desc='building train feats')]
         val_feats = [feature_histogram(desc, kmeans) for desc in tqdm(val_descriptors, desc='building val feats')]
         with open('./kmeans.pkl', 'wb') as f:  # save the kmeans model trained.
