@@ -19,6 +19,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.svm import SVC
 from tqdm import tqdm
 
+# we use joblib to cache the results of and data-loading, feature-extraction and kmeans clustering to speed up.
 memory = joblib.Memory('./.cache')
 
 
