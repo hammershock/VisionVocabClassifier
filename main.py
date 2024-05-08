@@ -60,7 +60,14 @@ def feature_histogram(descriptors: list[np.ndarray], kmeans_model):
 
 
 if __name__ == '__main__':
-    sift = cv2.SIFT_create(nOctaveLayers=5)
+    # all the hyperparameters are listed as follows:
+    nOctaveLayers = 5
+    n_clusters = 700
+    batch_size = 200  # for MiniBatch KMeans
+    kernel = 'rbf'  # for SVM, choices are: linear, sigmoid, poly, rbf
+    C = 10.0  # SVM param
+
+    sift = cv2.SIFT_create(nOctaveLayers=nOctaveLayers)
     # step 0: train-val split the dataset
     train_labels, val_labels, train_paths, val_paths = load_data('./15-Scene Image Dataset', split=150)
 
@@ -78,9 +85,9 @@ if __name__ == '__main__':
     except Exception:  # except any exceptions while loading and computing
         # step 2. cluster all descriptors of train data
         # Merge the descriptors from all train images, and cluster them. Any clusters are regarded as a visual word.
-        kmeans = MiniBatchKMeans(n_clusters=700, random_state=42, verbose=0, batch_size=200)
-        kmeans.fit(np.vstack(train_descriptors))
-        for batch in tqdm([train_descriptors[i:i + 200] for i in range(0, len(train_descriptors), 200)], desc="Training KMeans"):
+        kmeans = MiniBatchKMeans(n_clusters=n_clusters, random_state=42, verbose=0, batch_size=batch_size)
+        # kmeans.fit(np.vstack(train_descriptors))
+        for batch in tqdm([train_descriptors[i:i + batch_size] for i in range(0, len(train_descriptors), batch_size)], desc="Training KMeans"):
             data = np.vstack(batch)
             kmeans.partial_fit(data)
 
@@ -99,7 +106,7 @@ if __name__ == '__main__':
 
     # 4. train a svm model to classify the images with the histogram features
     print('training svm')
-    svm = SVC(kernel='rbf', C=10.0)
+    svm = SVC(kernel=kernel, C=C)
     svm.fit(X_train, Y_train)
     predictions = svm.predict(X_val)
 
