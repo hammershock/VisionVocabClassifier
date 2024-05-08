@@ -3,6 +3,17 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# cache
+.cache/
+
+# dataset
+15-Scene Image Dataset/
+data/
+datasets/
+
+# models
+kmeans.pkl
+
 # C extensions
 *.so
 
