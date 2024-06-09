@@ -19,7 +19,5 @@
 
 以上模型参数下，模型准确率可以达到60%
 
-### 文档
-
 - [实验报告文档](./docs/场景图像分类系统.pdf)
-- 参考论文[参考论文](http://people.csail.mit.edu/torralba/courses/6.870/papers/cvpr06b.pdf)
+- [参考论文](http://people.csail.mit.edu/torralba/courses/6.870/papers/cvpr06b.pdf)
