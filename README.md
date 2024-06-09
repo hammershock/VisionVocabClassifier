@@ -1,6 +1,8 @@
 # VisionVocabClassifier
 15-Scene Image Classification with SIFT and SVM
 
+[中文文档请戳](./README_ZH.md)
+
 This repository contains the Python code for a machine learning project that classifies images from the 15-Scene dataset using Scale-Invariant Feature Transform (SIFT) features and Support Vector Machine (SVM) classifier. The project utilizes OpenCV for image processing, scikit-learn for clustering and classification, and joblib for caching.
 
 ## Dataset
